@@ -1,9 +1,9 @@
 # TestTCP
 
-# Run server
+## Run server
 - python server/server.py
 
-# Run client
+## Run client
 - build android project
 - type in hostname and port
 - click "Connect" Button
