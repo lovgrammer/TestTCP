@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dip"
+    tools:context=".MainActivity">
+
+  <EditText
+      android:id="@+id/edit_hostname"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16dip"
+      android:hint="Ex) 192.168.0.9"/>
+
+  <EditText
+      android:id="@+id/edit_port"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:inputType="number"
+      android:hint="Port Number"/>
+  
+  <Button
+      android:id="@+id/btn_connect"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:text="Connect"/>
+
+  <Button
+      android:id="@+id/btn_disconnect"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:text="Disconnect"/>  
+</LinearLayout>
