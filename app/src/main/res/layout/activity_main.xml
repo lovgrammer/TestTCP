@@ -24,14 +24,31 @@
       android:textSize="16dip"
       android:inputType="number"
       android:hint="Port Number"/>
-  
-  <Button
-      android:id="@+id/btn_connect"
+
+  <EditText
+      android:id="@+id/edit_interval"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dip"
       android:textSize="16dip"
-      android:text="Connect"/>
+      android:inputType="number"
+      android:hint="60 (sec)"/>
+  
+  <Button
+      android:id="@+id/btn_sending"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:text="Start Sending"/>
+  
+  <Button
+      android:id="@+id/btn_receiving"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:text="Start Receiving"/>  
 
   <Button
       android:id="@+id/btn_disconnect"

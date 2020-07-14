@@ -11,6 +11,10 @@ public class ClientAgent {
 	System.loadLibrary("native-lib");
     }
 
+    public interface ClientAgentListener {
+	public void onTestingEnded();
+    }
+
     private native int init(String hostname, int port);
     private native void sendData(int sock, String data);
     private native String recvData(int sock);
@@ -22,26 +26,57 @@ public class ClientAgent {
     // 	// disconnect(sock);
     // }
 
-    public void startSending(final String hostname, final int port) {
+    public void startSending(final String hostname,
+			     final int port,
+			     final int interval,
+			     final ClientAgentListener listener) {
 	ongoing = true;
 	Thread t = new Thread(new Runnable() {
 		@Override
 		public void run() {
 		    sock = init(hostname, port);
-		    byte[] bytes = new byte[1440];	
+		    sendData(sock, "u");
+		    long stime = System.currentTimeMillis();
+		    byte[] bytes = new byte[1440];
 		    while (ongoing) {
-			String sdata = new String(bytes);
-			sendData(sock, sdata);
+		    	String sdata = new String(bytes);
+		    	sendData(sock, sdata);
+			if (System.currentTimeMillis() - stime > interval * 1000) {
+			    ongoing = false;
+			}
 		    }
+		    listener.onTestingEnded();
 		    disconnect(sock);
 		}
 	    });
 	t.start();
     }
 
-    public void stopSending() {
-	ongoing = false;
+    public void startReceiving(final String hostname,
+			       final int port,
+			       final int interval,
+			       final ClientAgentListener listener) {
+	ongoing = true;
+	Thread t = new Thread(new Runnable() {
+		@Override
+		public void run() {
+		    sock = init(hostname, port);
+		    sendData(sock, "d");
+		    long stime = System.currentTimeMillis();		    
+		    while (ongoing) {
+		    	recvData(sock);
+			if (System.currentTimeMillis() - stime > interval * 1000) {
+			    ongoing = false;
+			}			
+		    }
+		    listener.onTestingEnded();		    
+		    disconnect(sock);
+		}
+	    });
+	t.start();
     }
 
-    
+    public void disconnect() {
+	ongoing = false;
+    }
 }
