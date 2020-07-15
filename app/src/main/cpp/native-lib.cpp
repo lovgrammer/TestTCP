@@ -1,5 +1,8 @@
 #include <jni.h>
 #include <string>
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 #include "client.h"
 
 /**
@@ -45,6 +48,10 @@ extern "C" {
 						   jint port) {
     sclient k;
     string hname = jstring2string(env, hostname);
+    char cmd[200];
+    sprintf(cmd, "sudo modprobe tcp_probe port=%d full=1", port);
+    system(cmd);
+    system("sudo cat /proc/net/tcpprobe > tcpprobe.log &");
     return k.connectToServer(hname, (int) port);
   }
 
@@ -78,6 +85,8 @@ extern "C" {
 							 jint sock) {
     sclient k;
     k.disconnectFromServer((int) sock);
+    system("sudo kill `ps aux | grep '[s]udo cat /proc/net/tcpprobe' | awk '{print $2}'`");
+    system("sudo modprobe -r tcp_probe");
   }
 
   /**
