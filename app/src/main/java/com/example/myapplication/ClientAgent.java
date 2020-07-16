@@ -37,7 +37,7 @@ public class ClientAgent {
 		    sock = init(hostname, port);
 		    sendData(sock, "u");
 		    long stime = System.currentTimeMillis();
-		    byte[] bytes = new byte[1440];
+		    byte[] bytes = new byte[5000];
 		    while (ongoing) {
 		    	String sdata = new String(bytes);
 		    	sendData(sock, sdata);

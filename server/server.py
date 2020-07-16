@@ -5,7 +5,7 @@ import threading
 def process_uplink(c, addr):
     recv_size = 0
     while True:
-        data = c.recv(1440)
+        data = c.recv(5000)
         recv_size = recv_size + len(data)
         print('process_uplink %d' % (recv_size), end="\r")
         # print(data)
@@ -18,8 +18,8 @@ def process_downlink(c, addr):
     send_size = 0    
     while True:
         try:
-            c.send(bytes(1440))
-            send_size = send_size + 1440
+            c.send(bytes(5000))
+            send_size = send_size + 5000
             print('process_uplink %d' % (send_size), end="\r")
         except:
             break
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     while True:
         c, addr = s.accept()
         print('Connected by', addr)
-        data = c.recv(1440)
+        data = c.recv(5000)
         print('data', data[0])
         if 'u' in str(data):
             print('Uplink')
