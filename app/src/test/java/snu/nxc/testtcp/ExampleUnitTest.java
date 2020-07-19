@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package snu.nxc.testtcp;
 
 import org.junit.Test;
 

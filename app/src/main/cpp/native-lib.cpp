@@ -42,7 +42,7 @@ extern "C" {
    * @return  - returns a socket to be stored and used or -1 for error
    */
   JNIEXPORT jint JNICALL
-  Java_com_example_myapplication_ClientAgent_init(JNIEnv *env,
+  Java_snu_nxc_testtcp_ClientAgent_init(JNIEnv *env,
 						  jobject instance,
 						  jstring hostname,
 						  jint port,
@@ -68,7 +68,7 @@ extern "C" {
    * @param data - data to be sent to the remote server
    */
   JNIEXPORT void JNICALL
-  Java_com_example_myapplication_ClientAgent_sendData(
+  Java_snu_nxc_testtcp_ClientAgent_sendData(
 						       JNIEnv *env,
 						       jobject instance,
 						       jint sock,
@@ -85,7 +85,7 @@ extern "C" {
    * @param sock - active socket to disconnect
    */
   JNIEXPORT void JNICALL
-  Java_com_example_myapplication_ClientAgent_disconnect(JNIEnv *env,
+  Java_snu_nxc_testtcp_ClientAgent_disconnect(JNIEnv *env,
 							 jobject instance,
 							 jint sock) {
     sclient k;
@@ -101,7 +101,7 @@ extern "C" {
    * @return - returns incoming data from remote server
    */
   JNIEXPORT jstring JNICALL
-  Java_com_example_myapplication_ClientAgent_recvData(JNIEnv *env,
+  Java_snu_nxc_testtcp_ClientAgent_recvData(JNIEnv *env,
 						       jobject instance,
 						       jint sock) {
     sclient k;

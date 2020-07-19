@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package snu.nxc.testtcp;
 
 import android.util.Log;
 

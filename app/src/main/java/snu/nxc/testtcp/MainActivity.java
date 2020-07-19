@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package snu.nxc.testtcp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.myapplication.ClientAgent.ClientAgentListener;
+import snu.nxc.testtcp.ClientAgent.ClientAgentListener;
 
 public class MainActivity extends AppCompatActivity {
     
