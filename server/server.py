@@ -1,7 +1,19 @@
+import os
 import sys
 import socket
 import threading
 
+def start_tcpdump(sname, iname, hname, port):
+    cmd = 'tcpdump -ttt -w data/trace_%s.pcap -i %s dst %s and dst port %d &' % (sname, iname, hname, port)
+    # cmd = str(cmd)
+    # print(cmd)
+    # cmd = 'tcpdump -ttt -w data/trace_%s.pcap &' % ('hello')
+    sudoPassword = 'asdf1234'
+    p = os.system('echo %s|sudo -S %s' % (sudoPassword, cmd))
+
+def stop_tcpdump():
+    os.system("kill -9 `ps -aux | grep tcpdump | awk '{print $2}'`")
+    
 def process_uplink(c, addr):
     recv_size = 0
     while True:
@@ -13,6 +25,7 @@ def process_uplink(c, addr):
             break
     c.close()
     print('Disconnected', addr)
+    stop_tcpdump()
 
 def process_downlink(c, addr):
     send_size = 0    
@@ -25,6 +38,7 @@ def process_downlink(c, addr):
             break
     c.close()
     print('Disconnected', addr)
+    stop_tcpdump()    
     
 if __name__ == '__main__':
     s = socket.socket()
@@ -37,11 +51,16 @@ if __name__ == '__main__':
         print('Connected by', addr)
         data = c.recv(5000)
         print('data', data[0])
-        if 'u' in str(data):
+        
+        sname = data[1:30].decode("ascii").strip().strip('\x00')
+        
+        start_tcpdump(sname, 'enp0s31f6', addr[0], addr[1])
+        
+        if 'u' in str(data[0:1]):
             print('Uplink')
             t = threading.Thread(target=process_uplink, args=(c, addr))
             t.start()
-        elif 'd' in str(data):
+        elif 'd' in str(data[0:1]):
             print('Downlink')
             t = threading.Thread(target=process_downlink, args=(c, addr))
             t.start()

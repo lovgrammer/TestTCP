@@ -15,7 +15,7 @@ public class ClientAgent {
 	public void onTestingEnded();
     }
 
-    private native int init(String hostname, int port);
+    private native int init(String hostname, int port, String savename, String interfaceName);
     private native void sendData(int sock, String data);
     private native String recvData(int sock);
     private native void disconnect(int sock);
@@ -29,13 +29,15 @@ public class ClientAgent {
     public void startSending(final String hostname,
 			     final int port,
 			     final int interval,
+			     final String savename,
+			     final String interfaceName,
 			     final ClientAgentListener listener) {
 	ongoing = true;
 	Thread t = new Thread(new Runnable() {
 		@Override
 		public void run() {
-		    sock = init(hostname, port);
-		    sendData(sock, "u");
+		    sock = init(hostname, port, savename, interfaceName);
+		    sendData(sock, "u" + savename);
 		    long stime = System.currentTimeMillis();
 		    byte[] bytes = new byte[5000];
 		    while (ongoing) {
@@ -55,13 +57,15 @@ public class ClientAgent {
     public void startReceiving(final String hostname,
 			       final int port,
 			       final int interval,
+			       final String savename,
+			       final String interfaceName,
 			       final ClientAgentListener listener) {
 	ongoing = true;
 	Thread t = new Thread(new Runnable() {
 		@Override
 		public void run() {
-		    sock = init(hostname, port);
-		    sendData(sock, "d");
+		    sock = init(hostname, port, savename, interfaceName);
+		    sendData(sock, "d" + savename);
 		    long stime = System.currentTimeMillis();		    
 		    while (ongoing) {
 		    	recvData(sock);

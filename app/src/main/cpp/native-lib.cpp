@@ -45,15 +45,18 @@ extern "C" {
   Java_com_example_myapplication_ClientAgent_init(JNIEnv *env,
 						  jobject instance,
 						  jstring hostname,
-						  jint port) {
+						  jint port,
+						  jstring savename,
+						  jstring interfacename) {
     sclient k;
     string hname = jstring2string(env, hostname);
-    system("su -c rm -rf /sdcard/trace.pcap");
+    string sname = jstring2string(env, savename);
+    string iname = jstring2string(env, interfacename);
+    // system("su -c rm -rf /sdcard/trace.pcap");
     system("kill -9 `ps | grep su | awk '{print $2}'`");
     char cmd[200];
-    sprintf(cmd, "su -c tcpdump -ttt -w /sdcard/trace.pcap -i wlan0 dst %s and dst port %d &", hname.c_str(), port);
+    sprintf(cmd, "su -c tcpdump -ttt -w /sdcard/trace_%s.pcap -i %s dst %s and dst port %d &", sname.c_str(), iname.c_str(), hname.c_str(), port);
     system(cmd);
-    // system("su -c cat /proc/net/tcpprobe > tcpprobe.log &");
     return k.connectToServer(hname, (int) port);
   }
 
@@ -88,7 +91,6 @@ extern "C" {
     sclient k;
     k.disconnectFromServer((int) sock);
     system("kill -9 `ps | grep su | awk '{print $2}'`");
-    // system("su -c modprobe -r tcp_probe");
   }
 
   /**

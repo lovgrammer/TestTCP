@@ -15,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
     
     private ClientAgent mClientAgent;
     private Button mSendingButton;
-    private Button mReceivingButton;    
+    private Button mReceivingButton;
     private Button mDisconnectButton;
     private EditText mHostnameEdit;
     private EditText mPortEdit;
     private EditText mIntervalEdit;
+    private EditText mSaveEdit;
+    private EditText mInterfaceEdit;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,18 @@ public class MainActivity extends AppCompatActivity {
 	mSendingButton = (Button) findViewById(R.id.btn_sending);
 	mReceivingButton = (Button) findViewById(R.id.btn_receiving);	
 	mDisconnectButton = (Button) findViewById(R.id.btn_disconnect);
+	
 	mHostnameEdit = (EditText) findViewById(R.id.edit_hostname);
 	mPortEdit = (EditText) findViewById(R.id.edit_port);
 	mIntervalEdit = (EditText) findViewById(R.id.edit_interval);
+	mSaveEdit = (EditText) findViewById(R.id.edit_save);
+	mInterfaceEdit = (EditText) findViewById(R.id.edit_interface);	
+
+	mHostnameEdit.setText(ConfigUtil.getHostname(this));
+	mPortEdit.setText("" + ConfigUtil.getPort(this));
+	mIntervalEdit.setText("" + ConfigUtil.getInterval(this));
+	mSaveEdit.setText(ConfigUtil.getSaveName(this));
+	mInterfaceEdit.setText(ConfigUtil.getInterface(this));
 	
 	mDisconnectButton.setOnClickListener(onButtonsClick);
 	mSendingButton.setOnClickListener(onButtonsClick);
@@ -47,13 +58,19 @@ public class MainActivity extends AppCompatActivity {
 		    mClientAgent.startSending(mHostnameEdit.getText().toString(),
 					      Integer.parseInt(mPortEdit.getText().toString()),
 					      Integer.parseInt(mIntervalEdit.getText().toString()),
+					      mSaveEdit.getText().toString(),
+					      mInterfaceEdit.getText().toString(),
 					      mTestingListener);
+		    saveConfig();
 		    break;
 		case R.id.btn_receiving:
 		    mClientAgent.startReceiving(mHostnameEdit.getText().toString(),
 						Integer.parseInt(mPortEdit.getText().toString()),
 						Integer.parseInt(mIntervalEdit.getText().toString()),
+						mSaveEdit.getText().toString(),
+						mInterfaceEdit.getText().toString(),		
 						mTestingListener);
+		    saveConfig();
 		    break;
 		case R.id.btn_disconnect:
 		    mClientAgent.disconnect();
@@ -61,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
 		}		
 	    }
 	};
+
+    public void saveConfig() {
+	ConfigUtil.setHostname(this, mHostnameEdit.getText().toString());
+	ConfigUtil.setPort(this, Integer.parseInt(mPortEdit.getText().toString()));
+	ConfigUtil.setInterval(this, Integer.parseInt(mIntervalEdit.getText().toString()));
+	ConfigUtil.setSaveName(this, mSaveEdit.getText().toString());
+	ConfigUtil.setInterface(this, mInterfaceEdit.getText().toString());
+    }
     
     ClientAgentListener mTestingListener = new ClientAgentListener() {
 	    @Override

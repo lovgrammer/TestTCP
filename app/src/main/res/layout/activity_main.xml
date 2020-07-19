@@ -33,6 +33,22 @@
       android:textSize="16dip"
       android:inputType="number"
       android:hint="60 (sec)"/>
+
+  <EditText
+      android:id="@+id/edit_save"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:hint="Saving File Name. e.g., test1"/>
+  
+  <EditText
+      android:id="@+id/edit_interface"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dip"
+      android:textSize="16dip"
+      android:hint="Interface name. e.g., wlan0"/>  
   
   <Button
       android:id="@+id/btn_sending"
@@ -56,5 +72,7 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="8dip"
       android:textSize="16dip"
-      android:text="Disconnect"/>  
+      android:text="Disconnect"/>
+
+
 </LinearLayout>
