@@ -41,6 +41,14 @@ def process_downlink(c, addr):
     stop_tcpdump()    
     
 if __name__ == '__main__':
+
+    if len(sys.argv) != 2:
+        print('Input parameter is not avlid')
+        print('example) python3 server.py <interface:wlan0>')
+        exit()
+    else:
+        iname = sys.argv[1]
+        
     s = socket.socket()
     port = 8888
     s.bind(('', port))
@@ -54,7 +62,7 @@ if __name__ == '__main__':
         
         sname = data[1:30].decode("ascii").strip().strip('\x00')
         
-        start_tcpdump(sname, 'enp0s31f6', addr[0], addr[1])
+        start_tcpdump(sname, iname, addr[0], addr[1])
         
         if 'u' in str(data[0:1]):
             print('Uplink')

@@ -52,7 +52,9 @@ extern "C" {
     string hname = jstring2string(env, hostname);
     string sname = jstring2string(env, savename);
     string iname = jstring2string(env, interfacename);
-    // system("su -c rm -rf /sdcard/trace.pcap");
+    char cmd0[200];
+    sprintf(cmd0, "su -c rm -rf /sdcard/trace_%s.pcap", sname.c_str());
+    system(cmd0);
     system("kill -9 `ps | grep su | awk '{print $2}'`");
     char cmd[200];
     sprintf(cmd, "su -c tcpdump -ttt -w /sdcard/trace_%s.pcap -i %s dst %s and dst port %d &", sname.c_str(), iname.c_str(), hname.c_str(), port);
